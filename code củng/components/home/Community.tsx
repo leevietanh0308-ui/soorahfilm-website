@@ -1,0 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { site } from "@/data/content";
+
+export default function Community() { return <section className="community-section section-pad" id="community"><div className="section-index"><span>01 / CỘNG ĐỒNG</span><span>KHUNG HÌNH RỘNG MỞ</span></div><div className="community-grid"><div className="community-copy"><span className="eyebrow">GÓC NÀY DÀNH CHO BẠN</span><h2 data-reveal>Cuộn film của bạn <em>cũng là một câu chuyện.</em></h2><p>Bộ ảnh film của SOORAH mở đầu góc này. Gắn thẻ {site.instagramHandle} và chia sẻ ảnh quét bạn muốn giữ lại; ảnh cộng đồng được cho phép sử dụng sẽ xuất hiện tiếp theo.</p><Link className="text-link" href="/#gallery">XEM BỘ ẢNH FILM SOORAH <ArrowUpRight size={16} /></Link><a className="text-link" href={site.instagramUrl} target="_blank" rel="noreferrer">CHIA SẺ ẢNH CỦA BẠN <ArrowUpRight size={16} /></a></div><div className="community-visual"><div className="community-photo"><Image src="/images/film/frame-04.webp" alt="Ảnh film: tháp sách cao trong không gian đọc sách" fill sizes="(max-width: 760px) 80vw, 30vw" /></div><div className="community-caption"><span>KHUNG 001 / ẢNH FILM SOORAH</span><span>KHUNG HÌNH CỦA BẠN CÓ THỂ Ở ĐÂY ↗</span></div></div></div></section>; }

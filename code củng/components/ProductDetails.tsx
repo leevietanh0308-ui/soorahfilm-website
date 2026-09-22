@@ -1,0 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Minus, Plus } from "lucide-react";
+import FilmPack from "@/components/FilmPack";
+import { useCart } from "@/components/CartProvider";
+import { featuredProduct, formatPrice } from "@/data/products";
+import { track } from "@/lib/analytics";
+
+const tabs = [
+  { title: "Tổng quan", text: "Kodak Ultramax 400 là film màu 35mm ISO 400, 36 tấm ảnh. SOORAH chọn cuộn còn hạn, có hộp, hạn 05/2028 cho những ngày bạn muốn mang máy theo." },
+  { title: "Phù hợp với", text: "Chụp đời thường, dạo phố, du lịch và ngoài trời. Trong nhà thiếu sáng hoặc buổi tối, hãy cân nhắc đèn chớp hoặc máy cho phép mở khẩu lớn." },
+  { title: "Thông số", text: "Film âm bản màu 35mm · 36 tấm ảnh · ISO 400 · tráng C-41 · hạn 05/2028 · có hộp · còn hạn." },
+  { title: "Trước khi mua", text: "Kiểm tra máy của bạn dùng film 35mm. Giá là một cuộn film, chưa gồm phí vận chuyển, tráng hoặc quét ảnh. Kodak sản xuất film; SOORAH tuyển chọn và bán lại." },
+  { title: "Tráng và quét ảnh", text: "Sau khi chụp hết, tua film về trước khi mở máy. Mang cuộn đến tiệm tráng film màu C-41 và quét ảnh nếu muốn có file số. Phí dịch vụ trả riêng cho tiệm." },
+];
+
+export default function ProductDetails() {
+  const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
+  const [answers, setAnswers] = useState<(boolean | null)[]>([null, null, null]);
+  const { add } = useCart();
+  useEffect(() => { track("view_product", { product_id: featuredProduct.id }); }, []);
+  const quiz = ["Máy của bạn dùng film 35mm?", "Bạn thường chụp ngoài trời hoặc những ngày đủ sáng?", "Bạn đang tìm cuộn film màu đầu tiên?"];
+  const answered = answers.every((answer) => answer !== null);
+  const yesCount = answers.filter(Boolean).length;
+  return <div className="product-page" id="chi-tiet-san-pham"><div className="product-page-top"><span>CỬA HÀNG / FILM / 001</span><Link href="/products/film-rolls" className="text-link">VỀ CUỘN FILM ↗</Link></div><div className="product-detail-grid"><div className="product-gallery"><div className="product-gallery-main"><div className="gallery-corner tl">01 / 01</div><FilmPack /><div className="gallery-corner br">ẢNH MINH HOẠ<br />BAO BÌ CÓ THỂ KHÁC</div></div><div className="product-gallery-bottom"><span>KODAK ULTRAMAX 400</span><span>SOORAH TUYỂN CHỌN / 2026</span></div></div><div className="product-info"><span className="eyebrow">CÒN HẠN / SẴN SÀNG CHỤP</span><h2>Kodak<br /><em>Ultramax</em><br />400<span>.</span></h2><div className="product-info-price"><strong>{formatPrice(featuredProduct.price)}</strong><span>/ CUỘN</span></div><p className="product-lead">{featuredProduct.description}</p><div className="product-badges">{featuredProduct.badges.map((badge) => <span key={badge}>{badge}</span>)}<span>HẠN {featuredProduct.expiry}</span></div><div className="product-stock"><span className={`stock-dot ${featuredProduct.available ? "" : "unavailable"}`} />{featuredProduct.available ? featuredProduct.stockLabel : "Tạm hết hàng"}</div><div className="product-purchase"><div className="qty-control"><button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Giảm số lượng"><Minus size={17} /></button><span aria-live="polite">{quantity}</span><button onClick={() => setQuantity(Math.min(99, quantity + 1))} aria-label="Tăng số lượng"><Plus size={17} /></button></div><button className="button button-red" disabled={!featuredProduct.available} onClick={() => add(featuredProduct.id, quantity)}>THÊM VÀO GIỎ <ArrowRight size={18} /></button></div><p className="shipping-note">Phí vận chuyển tính riêng. SOORAH sẽ xác nhận khoản này sau khi bạn gửi nội dung đơn.</p><div className="product-tabs">{tabs.map((tab, index) => <div className="product-tab" key={tab.title}><button onClick={() => setActiveTab(activeTab === index ? -1 : index)} aria-expanded={activeTab === index} aria-controls={`product-tab-${index}`}><span>{tab.title}</span>{activeTab === index ? <Minus size={17} /> : <Plus size={17} />}</button><div id={`product-tab-${index}`} hidden={activeTab !== index}><p>{tab.text}</p></div></div>)}</div></div></div><section className="product-quiz section-pad"><div className="section-index"><span>CUỘN FILM NÀY HỢP VỚI BẠN?</span><span>BA CÂU HỎI NHANH</span></div><div className="quiz-grid"><div><h2>Có thể đây là<br /><em>cuộn đầu của bạn?</em></h2><p>Ba câu hỏi nhỏ để bạn chọn tự tin hơn. Đây chỉ là gợi ý, không phải cam kết ảnh sẽ ra như mong muốn.</p></div><div className="quiz-card">{quiz.map((question, index) => <div className="quiz-question" key={question}><span>0{index + 1}</span><p>{question}</p><div><button className={answers[index] === true ? "selected" : ""} onClick={() => setAnswers((current) => current.map((value, i) => i === index ? true : value))}>Có</button><button className={answers[index] === false ? "selected" : ""} onClick={() => setAnswers((current) => current.map((value, i) => i === index ? false : value))}>Chưa chắc</button></div></div>)}<div className="quiz-result" aria-live="polite">{answered ? answers[0] === false ? "Hãy kiểm tra loại film máy dùng trước khi mua. Ultramax 400 chỉ dành cho máy 35mm." : yesCount >= 2 ? "Ultramax 400 có thể là một điểm bắt đầu phù hợp với bạn." : "Ultramax 400 vẫn có thể phù hợp, nhưng hãy đọc hướng dẫn ánh sáng và máy trước khi chọn." : "TRẢ LỜI 3 CÂU ĐỂ XEM GỢI Ý"}</div></div></div></section><section className="product-after"><span className="eyebrow">SAU KHUNG HÌNH THỨ 36</span><h2>Sau tấm cuối<br /><em>là gì nhỉ?</em></h2><p>Tua cuộn film về, mang đến tiệm để tráng C-41 và quét ảnh. Không mở nắp máy trước khi film được tua hết về hộp.</p><Link href="/guide" className="button button-outline">ĐỌC HƯỚNG DẪN FILM <ArrowUpRight size={17} /></Link></section></div>;
+}

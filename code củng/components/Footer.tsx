@@ -1,0 +1,8 @@
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import { site } from "@/data/content";
+
+export default function Footer() {
+  return <footer className="footer"><div className="footer-top"><div><span className="eyebrow">SOORAH / HÀ NỘI</span><p>Cho những khoảnh khắc<br />bạn chọn giữ lại.</p></div><div className="footer-links"><div><span>KHÁM PHÁ</span><Link href="/products">Sản phẩm</Link><Link href="/about">Về SOORAH</Link><Link href="/guide">Hướng dẫn film</Link><Link href="/community">Cộng đồng</Link></div><div><span>HỖ TRỢ</span><Link href="/shipping">Giao hàng và đặt mua</Link><Link href="/guide#faq">Câu hỏi thường gặp</Link><Link href="/terms">Điều khoản</Link><Link href="/privacy">Quyền riêng tư</Link></div><div><span>KẾT NỐI</span><a href={site.instagramUrl} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={13} /></a><a href={site.facebookUrl} target="_blank" rel="noreferrer">Facebook <ArrowUpRight size={13} /></a><a href={site.zaloUrl} target="_blank" rel="noreferrer">Zalo · {site.zaloPhone} <ArrowUpRight size={13} /></a><a className="contact-email" href={`mailto:${site.contactEmail}`}>Gmail · {site.contactEmail} <ArrowUpRight size={13} /></a></div></div></div><div className="footer-bottom"><Link href="/" className="footer-logo" aria-label="SOORAH trang chủ"><Image src="/images/soorah-logo.png" alt="" width={1379} height={804} sizes="(max-width: 416px) 60vw, (max-width: 760px) 250px, 300px" /></Link><div><span>© {new Date().getFullYear()} SOORAH</span><span>FILM, DỄ BẮT ĐẦU HƠN.</span><a href="#main-content">LÊN ĐẦU TRANG ↑</a></div></div></footer>;
+}
