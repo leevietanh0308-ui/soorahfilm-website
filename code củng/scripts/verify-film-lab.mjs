@@ -12,6 +12,15 @@ try {
     assert.equal(await page.getByRole("heading", { name: /Một cú chụp/i, level: 1 }).isVisible(), true);
     assert.match((await page.locator(".lab-risk-row").first().textContent()) || "", /CAO/);
     assert.equal(await page.locator(".lab-traffic-dot.active.lab-traffic-high").count(), 1);
+    const cameraChoices = page.locator(".lab-camera-grid button");
+    assert.equal(await cameraChoices.count(), 2, `${viewport.name}: Film Lab phải chỉ có hai loại máy`);
+    const automaticCamera = page.getByRole("button", { name: /Máy tự động/ });
+    const manualCamera = page.getByRole("button", { name: /Máy chỉnh tay/ });
+    assert.equal(await automaticCamera.getAttribute("aria-pressed"), "true");
+    await manualCamera.click();
+    assert.equal(await manualCamera.getAttribute("aria-pressed"), "true");
+    await page.getByRole("button", { name: /THỬ LẠI TỪ ĐẦU/ }).click();
+    assert.equal(await automaticCamera.getAttribute("aria-pressed"), "true");
 
     await page.locator("#kiem-tra").evaluate((element) => element.scrollIntoView());
     const workbench = await page.evaluate(() => {
@@ -61,7 +70,7 @@ try {
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
     assert.equal(axe.violations.length, 0, `${viewport.name}: ${axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`).join("; ")}`);
     await page.screenshot({ path: `/private/tmp/soorah-film-lab-${viewport.name}.png`, fullPage: true });
-    console.log(`${viewport.name}: một khung nhìn, ba chấm, so ảnh bằng bàn phím, rủi ro, flash, lưu thẻ, chiều rộng, giảm chuyển động và WCAG A/AA đều đạt`);
+    console.log(`${viewport.name}: hai loại máy, một khung nhìn, ba chấm, so ảnh bằng bàn phím, rủi ro, flash, lưu thẻ, chiều rộng, giảm chuyển động và WCAG A/AA đều đạt`);
     await context.close();
   }
 } finally {

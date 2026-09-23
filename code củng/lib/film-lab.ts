@@ -1,4 +1,4 @@
-export type CameraType = "auto" | "manual" | "disposable" | "unknown";
+export type CameraType = "auto" | "manual";
 export type FlashMode = "off" | "auto" | "on";
 export type SubjectMotion = "still" | "moving";
 export type RiskBand = "low" | "moderate" | "high";
@@ -51,7 +51,7 @@ export type ShotAssessment = {
 };
 
 export const initialShot: ShotInput = {
-  camera: "unknown",
+  camera: "auto",
   scene: "cafe",
   light: 2,
   subject: "still",
@@ -74,7 +74,7 @@ export function evaluateShot(input: ShotInput): ShotResult {
   if (input.subject === "moving") motionRisk = light <= 2 && !nearFlash ? "high" : light <= 3 ? "moderate" : "low";
   else if (light <= 2 && !nearFlash) motionRisk = "moderate";
 
-  const certainty = input.camera === "unknown" || input.flash === "auto" ? "limited" : "contextual";
+  const certainty = input.flash === "auto" ? "limited" : "contextual";
   const reasons: string[] = [];
   const suggestions: string[] = [];
 
@@ -105,13 +105,8 @@ export function evaluateShot(input: ShotInput): ShotResult {
   if (motionRisk === "high") suggestions.push("Chờ chủ thể đứng yên hoặc chụp ở nơi sáng hơn để giảm nguy cơ nhòe.");
   else if (motionRisk === "moderate") suggestions.push("Giữ máy thật vững và nhắc chủ thể đứng yên trong lúc chụp.");
 
-  if (input.camera === "unknown") {
-    reasons.push("Chưa biết khả năng đo sáng và tốc độ màn trập của máy, nên đây chỉ là đánh giá theo tình huống.");
-    if (suggestions.length < 3) suggestions.push("Kiểm tra máy có flash và dùng film 35mm trước khi chụp.");
-  } else if (input.camera === "manual") {
+  if (input.camera === "manual") {
     reasons.push("Máy chỉnh tay còn phụ thuộc khẩu độ và tốc độ bạn chọn; Film Lab chưa nhận hai thông số này.");
-  } else if (input.camera === "disposable") {
-    reasons.push("Máy dùng một lần có ít khả năng điều chỉnh; ánh sáng và khoảng cách là hai điều quan trọng nhất bạn có thể thay đổi.");
   }
 
   if (suggestions.length === 0) suggestions.push("Giữ chủ thể trong vùng sáng và kiểm tra lại khung hình trước khi bấm.");

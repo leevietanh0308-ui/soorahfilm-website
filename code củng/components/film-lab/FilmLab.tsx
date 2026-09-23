@@ -13,10 +13,8 @@ import { assessShot, evaluateShot, initialShot, scenePresets } from "@/lib/film-
 import type { CameraType, FlashMode, RiskBand, SceneId, ShotInput, ShotSignal, ShotResult } from "@/lib/film-lab";
 
 const cameraOptions: { value: CameraType; label: string; detail: string }[] = [
-  { value: "unknown", label: "Tôi không biết", detail: "Vẫn có thể bắt đầu" },
   { value: "auto", label: "Máy tự động", detail: "Máy tự đo sáng" },
   { value: "manual", label: "Máy chỉnh tay", detail: "Bạn tự chọn thông số" },
-  { value: "disposable", label: "Máy dùng một lần", detail: "Ít khả năng chỉnh" },
 ];
 const sceneIcons: Record<SceneId, LucideIcon> = {
   sunny: Sun, cloudy: Cloud, golden: Sunset, shade: Trees, window: House,
@@ -142,7 +140,7 @@ export default function FilmLab() {
           <div className="lab-controls-scroll">
           <div className="lab-film-card"><span>CUỘN FILM / 001</span><strong>Kodak Ultramax <em>400</em></strong><small>35MM · ISO {featuredProduct.iso} · {featuredProduct.exposures} TẤM</small><p>Trong bản thử này, ISO cố định theo cuộn film; bạn không đổi ISO sau mỗi tấm như máy số.</p></div>
 
-          <fieldset className="lab-fieldset"><legend><span>01</span> Bạn đang dùng máy nào?</legend><div className="lab-camera-grid">{cameraOptions.map((option) => <button key={option.value} type="button" className={`lab-choice ${shot.camera === option.value ? "selected" : ""}`} aria-pressed={shot.camera === option.value} onClick={() => update("camera", option.value)}><strong>{option.label}</strong><small>{option.detail}</small></button>)}</div>{shot.camera === "unknown" && <p className="lab-field-hint">Không sao. Film Lab sẽ nói rõ khi thiếu thông tin về máy.</p>}</fieldset>
+          <fieldset className="lab-fieldset"><legend><span>01</span> Bạn đang dùng máy nào?</legend><div className="lab-camera-grid">{cameraOptions.map((option) => <button key={option.value} type="button" className={`lab-choice ${shot.camera === option.value ? "selected" : ""}`} aria-pressed={shot.camera === option.value} onClick={() => update("camera", option.value)}><strong>{option.label}</strong><small>{option.detail}</small></button>)}</div></fieldset>
 
           <fieldset className="lab-fieldset"><legend><span>02</span> Bạn chụp ở đâu?</legend><div className="lab-scene-grid">{scenePresets.map((option) => { const Icon = sceneIcons[option.id]; return <button key={option.id} type="button" className={`lab-scene ${shot.scene === option.id ? "selected" : ""}`} aria-pressed={shot.scene === option.id} onClick={() => chooseScene(option.id)}><Icon size={20} strokeWidth={1.5} aria-hidden="true" /><span>{option.label}</span></button>; })}</div><p className="lab-field-hint">{scene.note}</p></fieldset>
 

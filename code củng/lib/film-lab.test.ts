@@ -31,8 +31,9 @@ test("a moving subject in dim light increases motion risk", () => {
   assert.equal(moving.motionRisk, "high");
 });
 
-test("unknown camera and auto flash lower certainty", () => {
-  assert.equal(evaluateShot({ ...initialShot, camera: "unknown" }).certainty, "limited");
+test("automatic camera starts selected; manual guidance and auto flash remain", () => {
+  assert.equal(initialShot.camera, "auto");
+  assert.match(evaluateShot({ ...initialShot, camera: "manual" }).reasons.join(" "), /khẩu độ và tốc độ/);
   assert.equal(evaluateShot({ ...initialShot, flash: "auto" }).certainty, "limited");
 });
 
