@@ -11,6 +11,12 @@ npm run dev
 
 Mở `http://localhost:3000`. Để kiểm tra bản chạy thực tế, dùng `npm run build` rồi `npm run start`. Trước khi đưa lên mạng, đặt biến `NEXT_PUBLIC_SITE_URL` thành địa chỉ website chính thức để ảnh chia sẻ trên mạng xã hội có đường dẫn đúng.
 
+## Đăng bằng GitHub Pages
+
+Repository này có quy trình `.github/workflows/deploy-pages.yml` để tự xây dựng và đăng bản tĩnh tại `https://leevietanh0308-ui.github.io/soorahfilm-website/` sau mỗi lần đẩy lên nhánh `main`. Trong GitHub, vào **Settings → Pages → Build and deployment → Source**, chọn **GitHub Actions**. Theo dõi lần chạy trong tab **Actions**; khi bước `deploy` hoàn tất, tải lại địa chỉ website.
+
+Bản GitHub Pages giữ giỏ hàng trong trình duyệt và tạo nội dung đơn để khách tự gửi qua Instagram. Nếu sau này thêm chức năng cần máy chủ, cần chọn dịch vụ triển khai có hỗ trợ Next.js server.
+
 Nếu dùng macOS và đã cài Google Chrome ở vị trí mặc định, lệnh `node scripts/verify.mjs` sẽ kiểm tra bố cục máy tính và điện thoại, menu, giỏ hàng, bản nháp đơn và các lỗi tiếp cận theo WCAG A/AA trên những trang chính. Lệnh này cần server đang chạy tại `127.0.0.1:3000`.
 
 ## Sơ đồ trang

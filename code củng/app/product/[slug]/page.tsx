@@ -4,10 +4,17 @@ import ProductDetails from "@/components/ProductDetails";
 import ProductImmersiveHero from "@/components/ProductImmersiveHero";
 import { featuredProduct, formatPrice } from "@/data/products";
 
+export function generateStaticParams() {
+  return [{ slug: featuredProduct.slug }];
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   if (slug !== featuredProduct.slug) return {};
-  return { title: `${featuredProduct.name} — ${formatPrice(featuredProduct.price)}`, description: `${featuredProduct.name}: film màu 35mm, 36 tấm ảnh, ISO 400, còn hạn đến ${featuredProduct.expiry}. Giá ${formatPrice(featuredProduct.price)}.`, openGraph: { images: ["/images/film/frame-11.webp"] } };
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const socialImage = new URL(`${basePath}/images/film/frame-11.webp`, siteUrl).toString();
+  return { title: `${featuredProduct.name} — ${formatPrice(featuredProduct.price)}`, description: `${featuredProduct.name}: film màu 35mm, 36 tấm ảnh, ISO 400, còn hạn đến ${featuredProduct.expiry}. Giá ${formatPrice(featuredProduct.price)}.`, openGraph: { images: [socialImage] } };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
