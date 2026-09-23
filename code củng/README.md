@@ -1,6 +1,6 @@
 # Website bán film SOORAH
 
-Website giới thiệu thương hiệu và bán film 35mm, xây dựng bằng Next.js App Router, React, TypeScript, CSS và bộ phông chữ lưu trong dự án. Đây là bản mẫu giao diện có giỏ hàng lưu trên trình duyệt và luồng tạo nội dung đơn hàng. Website chưa thu tiền hoặc tự gửi đơn về máy chủ.
+Website giới thiệu thương hiệu và bán film 35mm, xây dựng bằng Next.js App Router, React, TypeScript, CSS và bộ phông chữ lưu trong dự án. Giỏ hàng được lưu trên trình duyệt. Mặc định website tạo bản nháp đơn để khách tự gửi qua Instagram; khi cấu hình Google Apps Script, biểu mẫu có thể ghi yêu cầu đặt hàng vào Google Sheets. Website chưa thu tiền.
 
 ## Khởi động trên máy
 
@@ -15,7 +15,7 @@ Mở `http://localhost:3000`. Để kiểm tra bản chạy thực tế, dùng `
 
 Repository này có quy trình `.github/workflows/deploy-pages.yml` để tự xây dựng và đăng bản tĩnh tại `https://leevietanh0308-ui.github.io/soorahfilm-website/` sau mỗi lần đẩy lên nhánh `main`. Trong GitHub, vào **Settings → Pages → Build and deployment → Source**, chọn **GitHub Actions**. Theo dõi lần chạy trong tab **Actions**; khi bước `deploy` hoàn tất, tải lại địa chỉ website.
 
-Bản GitHub Pages giữ giỏ hàng trong trình duyệt và tạo nội dung đơn để khách tự gửi qua Instagram. Nếu sau này thêm chức năng cần máy chủ, cần chọn dịch vụ triển khai có hỗ trợ Next.js server.
+Bản GitHub Pages giữ giỏ hàng trong trình duyệt. Để nhận yêu cầu đặt hàng trong Google Sheets, làm theo [hướng dẫn Google Sheets](docs/google-sheets-orders.md). Nếu chưa cấu hình, biểu mẫu tiếp tục tạo nội dung đơn để khách tự gửi qua Instagram.
 
 Nếu dùng macOS và đã cài Google Chrome ở vị trí mặc định, lệnh `node scripts/verify.mjs` sẽ kiểm tra bố cục máy tính và điện thoại, menu, giỏ hàng, bản nháp đơn và các lỗi tiếp cận theo WCAG A/AA trên những trang chính. Lệnh này cần server đang chạy tại `127.0.0.1:3000`.
 
@@ -31,7 +31,7 @@ Nếu dùng macOS và đã cài Google Chrome ở vị trí mặc định, lện
 | `/about` | Trang Về SOORAH riêng: khoảng trống, rào cản của người mới, cách bắt đầu và định hướng dài hạn |
 | `/guide` | Hướng dẫn cuộn film đầu tiên, câu hỏi thường gặp và hành trình chụp film |
 | `/community` | Góc chia sẻ ảnh; liên kết đến bộ ảnh film trên trang tổng |
-| `/checkout` | Biểu mẫu tạo bản nháp đơn để sao chép và gửi qua Instagram |
+| `/checkout` | Biểu mẫu gửi yêu cầu tới Google Sheets khi đã cấu hình; nếu chưa, tạo bản nháp để gửi qua Instagram |
 | `/shipping` | Cách đặt hàng và giao hàng |
 | `/terms`, `/privacy` | Điều khoản bản mẫu và cách xử lý dữ liệu |
 | Đường dẫn khác | Trang báo lỗi 404 |
@@ -52,8 +52,9 @@ Nếu dùng macOS và đã cài Google Chrome ở vị trí mặc định, lện
 1. Khách tìm hiểu thương hiệu hoặc đọc hướng dẫn cuộn film đầu tiên.
 2. Khách xem giá film và những khoản chưa bao gồm: vận chuyển, tráng và quét ảnh.
 3. Khách thêm film vào giỏ, chỉnh số lượng và mở trang đặt hàng.
-4. Biểu mẫu kiểm tra thông tin liên hệ, cách nhận hàng và tạo bản nháp đơn có thể sao chép.
-5. Khách tự gửi bản nháp đến Instagram `@lee._.vietanh`. SOORAH xác nhận hàng, phí giao và cách thanh toán. Website không báo đơn đã được nhận hoặc thanh toán.
+4. Biểu mẫu kiểm tra thông tin liên hệ và cách nhận hàng.
+5. Khi đã cấu hình Google Apps Script, khách gửi yêu cầu và chỉ thấy trang xác nhận sau khi Apps Script ghi vào Google Sheets. Nếu chưa cấu hình, khách sao chép bản nháp rồi tự gửi đến Instagram `@lee._.vietanh`.
+6. SOORAH xác nhận hàng, phí giao và cách thanh toán. Website không xử lý thanh toán.
 
 Biểu mẫu quan tâm đợt hàng tiếp theo cũng tạo một tin nhắn để sao chép. Website chưa có danh sách chờ trên máy chủ.
 
