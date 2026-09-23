@@ -2,6 +2,7 @@ export type CameraType = "auto" | "manual" | "disposable" | "unknown";
 export type FlashMode = "off" | "auto" | "on";
 export type SubjectMotion = "still" | "moving";
 export type RiskBand = "low" | "moderate" | "high";
+export type SignalStatus = RiskBand | "neutral";
 
 export const scenePresets = [
   { id: "sunny", label: "Ngoài trời nắng", short: "NẮNG", defaultLight: 5, note: "Ánh sáng mạnh, bóng đổ rõ." },
@@ -38,6 +39,15 @@ export type ShotResult = {
   suggestions: string[];
   previewTone: "balanced" | "dim" | "dark";
   flashReach: "near" | "far" | "unknown" | "off";
+};
+
+export type ShotSignal = { status: SignalStatus; finding: string };
+export type ShotAssessment = {
+  overall: RiskBand;
+  exposure: ShotSignal;
+  motion: ShotSignal;
+  flash: ShotSignal;
+  primaryFinding: string;
 };
 
 export const initialShot: ShotInput = {
@@ -121,4 +131,27 @@ export function evaluateShot(input: ShotInput): ShotResult {
     previewTone: exposureRisk === "high" ? "dark" : exposureRisk === "moderate" ? "dim" : "balanced",
     flashReach,
   };
+}
+
+export function assessShot(input: ShotInput, result: ShotResult): ShotAssessment {
+  const exposure: ShotSignal = {
+    status: result.exposureRisk,
+    finding: result.exposureRisk === "high" ? "Thiếu sáng: đưa chủ thể gần nguồn sáng hơn." : result.exposureRisk === "moderate" ? "Ánh sáng vừa đủ; tìm vị trí sáng hơn nếu có thể." : "Ánh sáng có vẻ thuận lợi trong tình huống này.",
+  };
+  const motion: ShotSignal = {
+    status: result.motionRisk,
+    finding: result.motionRisk === "high" ? "Dễ nhòe: chờ chủ thể đứng yên hoặc thêm sáng." : result.motionRisk === "moderate" ? "Giữ máy vững và hạn chế chuyển động." : "Nguy cơ nhòe hiện ở mức thấp.",
+  };
+  const flash: ShotSignal = input.flash === "off"
+    ? { status: "neutral", finding: "Flash đang tắt; không đánh giá hiệu quả flash." }
+    : input.flash === "auto"
+      ? { status: "moderate", finding: "Flash AUTO chưa chắc bật khi cần." }
+      : result.flashRisk === "high"
+        ? { status: "high", finding: "Chủ thể quá xa; flash nhỏ khó chiếu tới." }
+        : { status: "low", finding: "Flash gần có thể giúp sáng chủ thể." };
+
+  const active = [exposure, motion, flash].filter((signal) => signal.status !== "neutral");
+  const overall: RiskBand = active.some((signal) => signal.status === "high") ? "high" : active.some((signal) => signal.status === "moderate") ? "moderate" : "low";
+  const primaryFinding = active.find((signal) => signal.status === overall)?.finding || exposure.finding;
+  return { overall, exposure, motion, flash, primaryFinding };
 }
