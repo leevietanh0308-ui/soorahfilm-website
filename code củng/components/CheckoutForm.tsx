@@ -22,7 +22,7 @@ export default function CheckoutForm() {
   const change = (key: keyof FormData, value: string) => { setForm((current) => ({ ...current, [key]: value })); setError(""); };
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!items.length) { event.preventDefault(); setError("Giỏ hàng đang trống."); return; }
-    if (!form.name.trim() || form.name.trim().length > 100 || !/^[0-9+().\\s-]{9,16}$/.test(form.phone.trim())) {
+    if (!form.name.trim() || form.name.trim().length > 100 || !/^[0-9+().\s-]{9,16}$/.test(form.phone.trim())) {
       event.preventDefault(); setError("Vui lòng nhập tên và số điện thoại hợp lệ."); return;
     }
     if (form.method === "delivery" && !form.address.trim()) {
