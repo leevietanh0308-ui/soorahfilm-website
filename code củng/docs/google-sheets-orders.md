@@ -1,6 +1,6 @@
 # Nhận yêu cầu đặt hàng trong Google Sheets
 
-Website SOORAH trên GitHub Pages không có máy chủ riêng. Cách này dùng Google Apps Script để nhận biểu mẫu, kiểm tra dữ liệu và ghi vào một Google Sheet riêng tư. Khách được chuyển tới trang xác nhận của Apps Script sau khi gửi. Biểu mẫu cũ vẫn tạo bản nháp Instagram cho tới khi hoàn thành bước 4.
+Website SOORAH trên GitHub Pages không có máy chủ riêng. Cách này dùng Google Apps Script để nhận biểu mẫu, kiểm tra dữ liệu và ghi vào một Google Sheet riêng tư. Khách được chuyển tới trang xác nhận của Apps Script sau khi gửi.
 
 ## 1. Tạo Google Sheet
 
@@ -18,13 +18,7 @@ Trong Apps Script, chọn **Deploy → New deployment → Web app**. Chọn **Ex
 
 ## 4. Kết nối website
 
-Trong repository GitHub `leevietanh0308-ui/soorahfilm-website`, mở **Settings → Secrets and variables → Actions → Variables → New repository variable**. Tạo biến:
-
-| Name | Value |
-| --- | --- |
-| `NEXT_PUBLIC_ORDER_WEB_APP_URL` | URL `/exec` ở bước 3 |
-
-Vào **Actions → Deploy SOORAH to GitHub Pages → Run workflow** để xây dựng lại website với URL mới. Đợi cả hai job `build` và `deploy` thành công. URL này là địa chỉ nhận biểu mẫu công khai, không phải mật khẩu; tuyệt đối không thêm quyền chỉnh sửa Google Sheet cho khách.
+URL Web App `/exec` hiện được cấu hình trong `.github/workflows/deploy-pages.yml` dưới tên `NEXT_PUBLIC_ORDER_WEB_APP_URL`. Khi đẩy mã lên nhánh `main`, GitHub Actions sẽ xây dựng lại website với URL này. Nếu tạo một triển khai Apps Script mới có URL khác, cập nhật giá trị đó trong workflow rồi đẩy mã lên GitHub. URL này là địa chỉ nhận biểu mẫu công khai, không phải mật khẩu; tuyệt đối không thêm quyền chỉnh sửa Google Sheet cho khách.
 
 ## 5. Kiểm tra
 
