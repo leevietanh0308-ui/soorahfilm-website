@@ -23,20 +23,20 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: code củng/package-lock.json
+          cache-dependency-path: code củng/package-lock.json
       - run: npm ci
-        working-directory: code củng
+        working-directory: code củng
       - run: npm run build
-        working-directory: code củng
+        working-directory: code củng
         env:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_BASE_PATH: /soorahfilm-website
           NEXT_PUBLIC_SITE_URL: https://leevietanh0308-ui.github.io/soorahfilm-website
       - run: touch out/.nojekyll
-        working-directory: code củng
+        working-directory: code củng
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: code củng/out
+          path: code củng/out
 
   deploy:
     needs: build
