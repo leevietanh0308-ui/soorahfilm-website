@@ -2,6 +2,7 @@
 const SPREADSHEET_ID = "PASTE_GOOGLE_SHEET_ID_HERE";
 const SHEET_NAME = "Đơn hàng";
 const STORE_URL = "https://leevietanh0308-ui.github.io/soorahfilm-website/";
+const NOTIFICATION_EMAIL = "PASTE_NOTIFICATION_EMAIL_HERE";
 
 // Giữ giá tại đây khớp với data/products.ts trên website.
 const PRODUCTS = {
@@ -16,6 +17,7 @@ const HEADERS = [
 function doPost(e) {
   try {
     const order = parseOrder_(e && e.parameter);
+    let isNewOrder = false;
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
@@ -34,15 +36,47 @@ function doPost(e) {
           order.total, cellText_(order.note),
         ]);
         SpreadsheetApp.flush();
+        isNewOrder = true;
       }
     } finally {
       lock.releaseLock();
     }
+    if (isNewOrder) sendOrderNotification_(order);
     return resultPage_(true, order.id);
   } catch (error) {
     console.error(error);
     return resultPage_(false, "");
   }
+}
+
+function sendOrderNotification_(order) {
+  if (NOTIFICATION_EMAIL === "PASTE_NOTIFICATION_EMAIL_HERE") return;
+  try {
+    MailApp.sendEmail(
+      NOTIFICATION_EMAIL,
+      `SOORAH | Đơn mới ${order.id}`,
+      [
+        `Mã đơn: ${order.id}`,
+        `Khách hàng: ${order.name}`,
+        `Số điện thoại: ${order.phone}`,
+        `Instagram: ${order.instagram || "Không có"}`,
+        `Nhận hàng: ${order.method === "delivery" ? "Giao hàng" : "Nhận trực tiếp"}`,
+        `Địa chỉ: ${order.address || "Không có"}`,
+        `Sản phẩm: ${order.items.map(item => `${item.name} × ${item.quantity}`).join("; ")}`,
+        `Tạm tính: ${order.total.toLocaleString("vi-VN")} VND`,
+        `Ghi chú: ${order.note || "Không có"}`,
+        "",
+        `Xem đơn trong Google Sheet: https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`,
+      ].join("\n"),
+    );
+  } catch (error) {
+    console.error(`Đơn ${order.id} đã được lưu nhưng chưa gửi được email thông báo`, error);
+  }
+}
+
+// Chạy một lần trong trình sửa Apps Script để cấp quyền gửi email.
+function authorizeNotifications() {
+  MailApp.getRemainingDailyQuota();
 }
 
 function parseOrder_(params) {

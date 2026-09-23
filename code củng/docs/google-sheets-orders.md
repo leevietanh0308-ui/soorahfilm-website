@@ -8,13 +8,15 @@ Tạo một bảng tính mới tên **Đơn hàng SOORAH** trong Google Sheets. 
 
 ## 2. Tạo Apps Script
 
-Trong bảng tính, mở **Extensions → Apps Script**. Xoá mã mẫu và dán toàn bộ nội dung tệp [`integrations/google-sheets/Code.gs`](../integrations/google-sheets/Code.gs). Thay `PASTE_GOOGLE_SHEET_ID_HERE` bằng ID ở bước 1. Lưu lại.
+Trong bảng tính, mở **Extensions → Apps Script**. Xoá mã mẫu và dán toàn bộ nội dung tệp [`integrations/google-sheets/Code.gs`](../integrations/google-sheets/Code.gs). Thay `PASTE_GOOGLE_SHEET_ID_HERE` bằng ID ở bước 1, và `PASTE_NOTIFICATION_EMAIL_HERE` bằng địa chỉ Gmail bạn muốn nhận thông báo. Lưu lại.
 
-Mã này tự tạo tab **Đơn hàng** và các cột khi nhận yêu cầu đầu tiên. Cột **Trạng thái** ban đầu là **Mới**; bạn có thể đổi thành **Đã liên hệ**, **Đã xác nhận**, v.v. Trường giá được tính lại trong Apps Script thay vì tin vào tổng tiền gửi từ trình duyệt. Khi đổi giá sản phẩm trên website, cập nhật giá trong `PRODUCTS` của Apps Script rồi triển khai phiên bản mới.
+Mã này tự tạo tab **Đơn hàng** và các cột khi nhận yêu cầu đầu tiên. Cột **Trạng thái** ban đầu là **Mới**; bạn có thể đổi thành **Đã liên hệ**, **Đã xác nhận**, v.v. Mỗi đơn mới được lưu sẽ gửi một email; gửi lại cùng mã đơn không tạo email trùng. Nếu email gặp lỗi, đơn vẫn được lưu trong Sheet. Trường giá được tính lại trong Apps Script thay vì tin vào tổng tiền gửi từ trình duyệt. Khi đổi giá sản phẩm trên website, cập nhật giá trong `PRODUCTS` của Apps Script rồi triển khai phiên bản mới.
 
 ## 3. Xuất bản Web App
 
 Trong Apps Script, chọn **Deploy → New deployment → Web app**. Chọn **Execute as: Me** và **Who has access: Anyone** để khách không cần đăng nhập Google. Cấp quyền cho script truy cập bảng tính khi Google yêu cầu. Sao chép URL Web App kết thúc bằng `/exec`; URL `/dev` chỉ dùng để thử khi đang chỉnh sửa. [Hướng dẫn Web App của Google](https://developers.google.com/apps-script/guides/web).
+
+Nếu cập nhật mã của một Web App đã triển khai, trước tiên chọn hàm `authorizeNotifications` trong trình sửa Apps Script, bấm **Run** và cấp quyền gửi email khi Google yêu cầu. Sau đó chọn **Deploy → Manage deployments → Edit → Version: New version → Deploy**. URL `/exec` của cùng deployment vẫn dùng được; chỉnh sửa mã mà không tạo phiên bản mới sẽ chưa cập nhật website đang chạy.
 
 ## 4. Kết nối website
 
@@ -23,5 +25,7 @@ URL Web App `/exec` hiện được cấu hình trong `.github/workflows/deploy-
 ## 5. Kiểm tra
 
 Trên website, thêm một cuộn film vào giỏ, mở trang đặt hàng và điền một yêu cầu thử bằng thông tin của bạn. Sau khi bấm **Gửi yêu cầu đặt hàng**, trang xác nhận phải hiển thị mã đơn `SOO-...`. Mở Google Sheet và kiểm tra một dòng mới trong tab **Đơn hàng**. Nếu khách thấy thông báo chưa thể gửi, vào Apps Script → **Executions** để xem lỗi và kiểm tra ID bảng tính, quyền truy cập cùng URL `/exec`.
+
+Email báo đơn mới do `MailApp.sendEmail` gửi trực tiếp từ Apps Script, không phụ thuộc vào thông báo chỉnh sửa mặc định của Google Sheets. [Tài liệu MailApp của Google](https://developers.google.com/apps-script/reference/mail/mail-app). Nếu chưa thấy email, kiểm tra mục **Thư rác** và **Executions** trong Apps Script.
 
 Apps Script nhận yêu cầu qua biểu mẫu POST thông thường vì trình duyệt không thể đọc phản hồi Web App bằng `fetch` từ GitHub Pages một cách đáng tin cậy. Do đó trang xác nhận được Google phục vụ và có nút quay về SOORAH. Web App công khai có thể nhận yêu cầu ngoài website; mã kiểm tra trường dữ liệu, loại sản phẩm và mã đơn trùng, nhưng bạn vẫn nên rà soát đơn lạ trước khi liên hệ. Đơn được ghi nhận là **yêu cầu đặt hàng**, chưa phải đơn đã xác nhận hay đã thanh toán.
