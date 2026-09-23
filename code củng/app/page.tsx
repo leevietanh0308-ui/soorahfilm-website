@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Hero from "@/components/home/Hero";
 import FilmGallery from "@/components/home/FilmGallery";
+import FilmLabInvite from "@/components/home/FilmLabInvite";
 import { FinalCTA, WhyFilm } from "@/components/home/StorySections";
 
 const destinations = [
@@ -12,5 +13,5 @@ const destinations = [
 ];
 
 export default function HomePage() {
-  return <><Hero /><section className="home-destinations section-pad" aria-labelledby="destinations-title"><div className="section-index"><span>KHÁM PHÁ SOORAH</span><span>CHỌN ĐIỀU BẠN MUỐN XEM</span></div><h2 id="destinations-title">Khám phá theo<br /><em>cách của bạn.</em></h2><div className="destination-grid">{destinations.map((item) => <Link className="destination-card" href={item.href} key={item.href}><span>{item.number} / SOORAH</span><div><h3>{item.title}</h3><ArrowUpRight size={27} aria-hidden="true" /></div><p>{item.description}</p></Link>)}</div></section><WhyFilm /><FilmGallery /><FinalCTA /></>;
+  return <><Hero /><section className="home-destinations section-pad" aria-labelledby="destinations-title"><div className="section-index"><span>KHÁM PHÁ SOORAH</span><span>CHỌN ĐIỀU BẠN MUỐN XEM</span></div><h2 id="destinations-title">Khám phá theo<br /><em>cách của bạn.</em></h2><div className="destination-grid">{destinations.map((item) => <Link className="destination-card" href={item.href} key={item.href}><span>{item.number} / SOORAH</span><div><h3>{item.title}</h3><ArrowUpRight size={27} aria-hidden="true" /></div><p>{item.description}</p></Link>)}</div></section><FilmLabInvite /><WhyFilm /><FilmGallery /><FinalCTA /></>;
 }

@@ -298,3 +298,26 @@ main:has(.product-story){overflow:clip}
   .community-page-hero .editorial-hero-shade{background:linear-gradient(0deg,rgba(15,20,19,.9),rgba(15,20,19,.67) 65%,rgba(15,20,19,.42))}
   .guide-hero .editorial-hero-shade{background:linear-gradient(0deg,rgba(33,20,18,.72),rgba(33,20,18,.64) 70%,rgba(33,20,18,.42))}
 }
+
+/* Film Lab: điểm vào trên trang chủ, hướng dẫn và sản phẩm. */
+.home-lab{background:#d9d0c2;color:var(--ink)}
+.home-lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center;padding-top:65px}
+.home-lab-copy>.eyebrow{color:#843124}
+.home-lab-copy h2,.product-lab-invite h2{font-size:clamp(61px,6.6vw,112px);line-height:.9;letter-spacing:-.065em;margin:22px 0 31px}
+.home-lab-copy h2 em,.product-lab-invite h2 em{color:var(--red)}
+.home-lab-copy>p,.product-lab-invite>p{max-width:470px;font-size:15px;line-height:1.65;margin-bottom:35px}
+.home-lab-micro{display:block;margin-top:35px;font:9px var(--font-mono),monospace;letter-spacing:.11em;color:#57483e}
+.home-lab-visual{position:relative;aspect-ratio:4/5;background:#302c29;overflow:hidden;color:#fff}
+.home-lab-visual img{object-fit:cover;object-position:center}
+.home-lab-dark{position:absolute;inset:0 0 0 50%;background:rgba(15,13,12,.64);border-left:2px solid #f3e6d1}
+.home-lab-visual-label{position:absolute;top:17px;font:9px var(--font-mono),monospace;letter-spacing:.1em;text-shadow:0 2px 8px #000}
+.home-lab-visual-label.left{left:18px}.home-lab-visual-label.right{right:18px}
+.home-lab-visual-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:39px;height:39px;display:grid;place-items:center;border-radius:50%;background:var(--paper);color:var(--ink);font-size:19px}
+.home-lab-visual small{position:absolute;bottom:17px;left:18px;right:18px;font:9px var(--font-mono),monospace;letter-spacing:.08em;text-shadow:0 2px 8px #000}
+.guide-last-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.product-lab-invite{background:#d9d0c2;color:var(--ink)}
+.product-lab-invite>.eyebrow{color:#843124}
+.home-lab .button-red,.product-lab-invite .button-red{background:#96372a}
+@media(min-width:761px) and (max-width:950px){.desktop-nav{gap:16px;margin-left:10px}}
+@media(max-width:850px){.home-lab-grid{grid-template-columns:1fr;gap:50px}.home-lab-visual{max-height:630px}}
+@media(max-width:760px){.home-lab{padding-top:78px;padding-bottom:86px}.home-lab-grid{padding-top:45px}.home-lab-copy h2,.product-lab-invite h2{font-size:clamp(52px,11vw,76px)}.home-lab-visual{aspect-ratio:1/1.15}.product-lab-invite{padding-top:88px;padding-bottom:90px}.guide-last-actions .button{width:100%;max-width:330px}}

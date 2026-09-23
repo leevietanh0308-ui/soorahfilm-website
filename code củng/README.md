@@ -25,6 +25,7 @@ Nếu dùng macOS và đã cài Google Chrome ở vị trí mặc định, lện
 | --- | --- |
 | `/` | Trang tổng: mở đầu, lý do chụp film và bộ 18 ảnh film của chủ thương hiệu |
 | `/products` | Chọn giữa cuộn film và máy film dùng một lần |
+| `/film-lab` | Kiểm tra cú chụp với Ultramax 400: tình huống, ánh sáng, flash, khoảng cách, rủi ro và gợi ý |
 | `/products/film-rolls` | Các ô cuộn film: Kodak Ultramax 400 và hai ô chờ đợt hàng tiếp theo; thông tin chọn film và chi phí |
 | `/products/disposable-cameras` | Bảng chờ máy film dùng một lần và biểu mẫu tạo tin nhắn quan tâm |
 | `/product/kodak-ultramax-400` | Trải nghiệm cuộn 5 cảnh với ảnh Kodak nổi, phần thông số, chọn số lượng và câu hỏi giúp chọn film |
@@ -69,6 +70,9 @@ Biểu mẫu quan tâm đợt hàng tiếp theo cũng tạo một tin nhắn đ�
 | Giao diện sản phẩm | `components/FilmRollCatalog.tsx`, `components/ProductImmersiveHero.tsx`, `components/ProductDetails.tsx`, `components/FilmPack.tsx` |
 | Thành phần chung và hiệu ứng | `components/Header.tsx`, `Footer.tsx`, `PageExperience.tsx`, `PageTransition.tsx`, `FilmGrain.tsx`, `LightLeak.tsx` |
 | Điểm nối phân tích hành vi | `lib/analytics.ts` |
+| Film Lab | `lib/film-lab.ts` (quy tắc đánh giá), `components/film-lab/FilmLab.tsx` (giao diện), `app/film-lab/film-lab.css` (trình bày) |
+
+Film Lab là công cụ học theo tình huống. Ảnh hiển thị chỉ minh họa xu hướng sáng tối, không dự đoán màu hoặc chất lượng ảnh cuối. Logic đánh giá không cần backend; thẻ ghi nhớ được tạo trong trình duyệt. Có thể kiểm tra quy tắc bằng `node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test lib/film-lab.test.ts`. Khi server đang chạy tại `127.0.0.1:3000`, dùng `node scripts/verify-film-lab.mjs` để kiểm tra luồng trên desktop và điện thoại bằng Chrome.
 
 Để sửa một mục lớn, mở tệp `app/<tên-trang>/page.tsx` tương ứng trong bảng trên. Nội dung Về SOORAH nằm trong `app/about/page.tsx`; thứ tự các phần trên trang tổng nằm trong `app/page.tsx`. Bộ ảnh lấy từ `data/content.ts` và hiển thị bằng `components/home/FilmGallery.tsx`. Dữ liệu sản phẩm nằm trong `data/products.ts`. Hàm `track()` chỉ phát sự kiện `soorah:analytics` trong trình duyệt; cần kết nối công cụ phân tích khi đã có mã đo lường và yêu cầu xin phép người dùng.
 

@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import ProductDetails from "@/components/ProductDetails";
 import ProductImmersiveHero from "@/components/ProductImmersiveHero";
 import { featuredProduct, formatPrice } from "@/data/products";
@@ -21,5 +23,5 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   if (slug !== featuredProduct.slug) notFound();
   const schema = { "@context": "https://schema.org", "@type": "Product", name: featuredProduct.name, description: featuredProduct.description, brand: { "@type": "Brand", name: "Kodak" }, category: "Film âm bản màu 35mm", offers: { "@type": "Offer", price: featuredProduct.price, priceCurrency: "VND", availability: featuredProduct.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock" } };
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /><ProductImmersiveHero /><ProductDetails /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /><ProductImmersiveHero /><ProductDetails /><section className="product-lab-invite section-pad"><span className="eyebrow">CHƯA CHẮC CUỘN NÀY HỢP CẢNH BẠN CHỤP?</span><h2>Thử một cú chụp<br /><em>trước khi mua.</em></h2><p>Film Lab giúp bạn đánh giá ánh sáng, chuyển động và flash với Ultramax 400. Kết quả là gợi ý để học, không phải cam kết ảnh cuối.</p><Link href="/film-lab" className="button button-red">VÀO FILM LAB <ArrowUpRight size={17} /></Link></section></>;
 }

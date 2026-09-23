@@ -9,7 +9,7 @@ import { useCart } from "./CartProvider";
 import { site } from "@/data/content";
 import { trapFocus } from "@/lib/focus";
 
-const nav = [{ label: "Sản phẩm", href: "/products" }, { label: "Về SOORAH", href: "/about" }, { label: "Hướng dẫn", href: "/guide" }, { label: "Cộng đồng", href: "/community" }];
+const nav = [{ label: "Sản phẩm", href: "/products" }, { label: "Film Lab", href: "/film-lab" }, { label: "Về SOORAH", href: "/about" }, { label: "Hướng dẫn", href: "/guide" }, { label: "Cộng đồng", href: "/community" }];
 
 export default function Header() {
   const { count, setOpen } = useCart();
