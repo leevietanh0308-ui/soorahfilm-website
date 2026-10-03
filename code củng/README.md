@@ -13,7 +13,7 @@ Mở `http://localhost:3000`. Để kiểm tra bản chạy thực tế, dùng `
 
 ## Đăng bằng GitHub Pages
 
-Repository này có quy trình `.github/workflows/deploy-pages.yml` để tự xây dựng và đăng bản tĩnh tại `https://leevietanh0308-ui.github.io/soorahfilm-website/` sau mỗi lần đẩy lên nhánh `main`. Trong GitHub, vào **Settings → Pages → Build and deployment → Source**, chọn **GitHub Actions**. Theo dõi lần chạy trong tab **Actions**; khi bước `deploy` hoàn tất, tải lại địa chỉ website.
+Địa chỉ mới dự kiến là `https://soorahfilm-website.github.io/`. Tạo tổ chức GitHub tên `soorahfilm-website`, rồi tạo repository công khai tên `soorahfilm-website.github.io` trong tổ chức đó. Đẩy mã nguồn sang repository mới; trong **Settings → Pages → Build and deployment → Source**, chọn **GitHub Actions**. Quy trình `.github/workflows/deploy-pages.yml` sẽ tự xây dựng và đăng bản tĩnh sau mỗi lần đẩy lên nhánh `main`. Kiểm tra trang chủ và `/film-lab/` trên địa chỉ mới trước khi thay đường link đang chia sẻ. Trang cũ vẫn ở repository hiện tại cho đến khi việc chuyển đổi hoàn tất.
 
 Bản GitHub Pages giữ giỏ hàng trong trình duyệt. Để nhận yêu cầu đặt hàng trong Google Sheets, làm theo [hướng dẫn Google Sheets](docs/google-sheets-orders.md). Nếu chưa cấu hình, biểu mẫu tiếp tục tạo nội dung đơn để khách tự gửi qua Instagram.
 

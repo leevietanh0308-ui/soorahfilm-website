@@ -1,7 +1,7 @@
 // Sao chép tệp này vào Google Apps Script, rồi thay ID bằng ID của Google Sheet.
 const SPREADSHEET_ID = "PASTE_GOOGLE_SHEET_ID_HERE";
 const SHEET_NAME = "Đơn hàng";
-const STORE_URL = "https://leevietanh0308-ui.github.io/soorahfilm-website/";
+const STORE_URL = "https://soorahfilm-website.github.io/";
 const NOTIFICATION_EMAIL = "PASTE_NOTIFICATION_EMAIL_HERE";
 
 // Giữ giá tại đây khớp với data/products.ts trên website.
